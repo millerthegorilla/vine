@@ -4,7 +4,7 @@ ImportJS.pack('vine.branch', function(module)
 	var point = this.import('utils.point');
 	var utils = this.import('utils.utils');
 
-	function branch(params)
+	function branch(params,seed)
 	{
 		climberbase.call(this,params);
 		this._branchDepth = 0;

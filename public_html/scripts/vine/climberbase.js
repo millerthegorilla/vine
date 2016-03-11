@@ -2,43 +2,10 @@ ImportJS.pack('vine.climberbase', function(module)
 {
 	var point = this.import('utils.point');
 	var utils = this.import('utils.utils');
-	var flower = this.import('vine.flower');
-	var branch;
-	this.inject(function() 
-	{
-		branch = this.import('vine.branch');
-	});
 
 	function climberbase(params)
 	{    
-		this._tid = 0;
-		this._xx = 0;
-		this._yy = 0;
-		this._w = 0;
-		this._depth = 0;
-		this._finX = 0;
-		this._finY = 0;
-		this._numOfRots = 0;
-		this._t = 0;
-		this._tMax = 0;
-		this._currentPoint = null;
-		this._curveRadiusX = 0;
-		this._curveRadiusY = 0;
-		this._func = null;
-		this._doneFunc = null;
-		this._hasBranches = false;
-		this._tInc = 0;
-		this._outline = 0;
-		this._branchChance = 0;
-		this._branchDepth = 0;
-		this.MAXBRANCHDEPTH = 0;
-		this._startX;
-		this._startY;
-		this._height;
-		this._container;
-		this._climbing = true;
-		this._depth = 0;
-		this._toPoint = 0;
+
 	};
 		
 	climberbase.prototype._rotX = function(t) 
