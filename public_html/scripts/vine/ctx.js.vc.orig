@@ -6,7 +6,7 @@ ImportJS.pack('vine.ctx', function()
 		ctx.draws = function(scope, func) { this.draw_funcs.push([scope,func]); };		
 		ctx.updates = function(scope, func) { this.update_funcs.push([scope,func]); };
 		
-		ctx.update = function () 
+		ctx.prepare = function () 
 		{
 			for(var i=0; i<this.update_funcs.length; i++)
 			{

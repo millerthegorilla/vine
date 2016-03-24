@@ -1,51 +1,69 @@
 ImportJS.pack('utils.circularQueue', function(module) 
 {
 	var collection = this.import('utils.collection');
-	var index = 0;
-	var reverse = false;
-	
-	function circularQueue ()
+
+	function circularQueue()
 	{
 		collection.call(this);
 		collection.injectClassMethods(this._collection, circularQueue.prototype);
-		console.log(this);
 		Object.defineProperty(this._collection, 
-							  "next", 
-							  { get: function() {
-													index = reverse ?  index - 1 : index + 1;
-													index = (index == this.length) ?  0 : index;
-													return this[index];
-												} 
+							  "index", 
+							  {
+								get: function() { return this._index; },
+								set: function(val) { this._index = val; }
 							  });
 		Object.defineProperty(this._collection, 
 							  "reverse", 
-							  { get: function() {
-													return reverse;
-												} ,
-								set: function(val) {
-														reverse = val;
-												   }
+							  {
+								get: function() { return this._reverse; },
+								set: function(val) { this._reverse = val; }
 							  });
 		Object.defineProperty(this._collection, 
-								  "current", 
-								  { get: function() {
-														return this[index];
-													} 
-								  });
+							  "current", 
+							  {
+								get: function() { return this[this._index]; }
+							  });
 		Object.defineProperty(this._collection, 
-							  "index", 
-							  { get: function() {
-													return index;
-												},
-								set: function(val) {
-														index = val;
-												   }
+							  "nextIndex", 
+							  {
+								get: function() 
+								{ 		var temp = this._reverse ?  this._index - 1 : this._index + 1;
+										return (temp > this._length - 1) ? 0 : temp; 
+								}
 							  });
 		return(this._collection);
 	};
-	
+
 	circularQueue.prototype = Object.create(collection.prototype);
 	circularQueue.constructor = circularQueue;
+	
+	circularQueue.prototype._index = 0;
+	circularQueue.prototype._reverse = false;
+	
+	circularQueue.prototype.next = function()
+	{
+		this._index = (this._reverse) ?  this._index - 1 : this._index + 1;
+		this._index = (this._index == this.length) ?  0 : this._index;
+		return this._index;
+	}
+	
+	circularQueue.prototype.backwards = function()
+	{
+		this._reverse = true;
+		return this._reverse;
+	}
+	
+	circularQueue.prototype.forwards = function()
+	{
+		this._reverse = false;
+		return this._reverse;
+	}
+	
+	circularQueue.prototype.push = function (val) 
+	{
+		this._index++; 
+		Array.prototype.push.call(this, val);  
+	};
 
 	module.exports = circularQueue;
 });

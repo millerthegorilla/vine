@@ -63,6 +63,9 @@ if (isset($_SESSION, $_SESSION['LAST_ACTIVITY'],$_SESSION['TIMEOUT_DURATION'])
 <script src="//use.edgefonts.net/architects-daughter;pompiere;dorsa;wire-one.js"></script>
 <script src="/scripts/libs/import.min.js"></script>
 <script src="/scripts/vine.js"></script>
+<!--<script src="/scripts/vine/seed.js"></script>
+<script src="/scripts/vine/climber.js"></script>
+<script src="/scripts/vine/garden.js"></script>-->
 <?php
 if (isset($_SESSION['USERNAME']))
 {

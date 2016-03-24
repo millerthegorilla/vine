@@ -1,27 +1,39 @@
-ImportJS.pack('vine.seed', function() {
+ImportJS.pack('vine.seed', function(module) 
+{
 	var climber = this.import('vine.climber');
 	var branch = this.import('vine.branch');
-	var sketch = this.import('vine.sketch');
+	var garden = this.import('vine.garden');
+	var flower = this.import('vine.flower');
 	
 	var branches = [];
+	var flowers = [];
 	var seed = function(params)
 	{
-		var vine = new climber(params,this);
-			
-		var growBranch = function(currentPoint)
-		{
-			branches.push(new branch({x:tempPoint.x,y:tempPoint.y,w:vine._w,branchdepth:vine._branchDepth},this));
-		}
+		this._garden		= new garden({autostart:params.autostart,autoclear:false,autopause:params.autopause});
+		params.garden		= this._garden;
+		params.seed 		= this;
+		var vine 			= new climber(params);	
+		this._garden.globalCompositeOperation = 'difference || hard-light';
 		
-		Object.defineProperty(this, 
-							  "growBranch", 
-							  { set: function(currentPoint) { growBranch(currentPoint); } });
 		Object.defineProperty(this, 
 							  "running", 
 							  {
-								get: function() { return ctx.running; },
-								set: function(val) { (val === true) ? ctx.start() : ctx.stop(); }
+								get: function() { return garden.running; },
+								set: function(val) { (val === true) ? garden.start() : garden.stop(); }
 							  });
 	};
+	
+	seed.prototype.growBranch = function(params)
+	{
+		params.garden = this._garden;
+		params.seed = this;
+		branches.push(new branch(params));
+	};
+	
+	seed.prototype.growFlower = function(params)
+	{
+		flowers.push(new flower(params.x, params.y, this._garden));
+	};
+	
 	module.exports = seed;
 });

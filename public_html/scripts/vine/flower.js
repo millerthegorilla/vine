@@ -1,10 +1,15 @@
 ImportJS.pack('vine.flower', function(module, exports)
 {
-	var utils = this.import('utils.utils');
-	
+	var utils 		= this.import('utils.utils');
+	var garden	 	= this.import('vine.garden');
+/*
+ * from an example of sketchjs (http://soulwire.github.io/sketch.js/)
+ * http://codepen.io/molefrog/pen/pilHJ
+ * 
+*/
 	function flower(x,y,context)
 	{
-		this._ctx = context;
+		this._garden = context;
 		this._x = x;
 		this._y = y;			
 		this._flower = generateFlower();
@@ -12,63 +17,60 @@ ImportJS.pack('vine.flower', function(module, exports)
 		this.types = {
 			"wave-green" : function(that) {
 
-				this._ctx.fillStyle = that.colorPrimary;
+				this._garden.fillStyle = that.colorPrimary;
 
 				var radius = abs(that.x_0);
-				this._ctx.beginPath();
+				this._garden.beginPath();
 				var angleStep = TWO_PI/140;
 
-				this._ctx.moveTo(radius*cos(0.0), radius*sin(0.0));
+				this._garden.moveTo(radius*cos(0.0), radius*sin(0.0));
 				for(var angle = 0.0; angle < TWO_PI; angle += angleStep) {
 
 					var rad = 
 						radius + 
 						that.params[0] * sin(angle * that.params[1]);
 
-					this._ctx.lineTo(
+					this._garden.lineTo(
 						 rad * cos(angle), 
 						 rad * sin(angle));
 				};
-
-
-				this._ctx.lineTo(
+				
+				this._garden.lineTo(
 					radius*cos(0.0), 
 					radius*sin(0.0));
 
-				
-				this._ctx.fill();
+				this._garden.fill();
 			},
 			
 			"wave-red" : function(that) {
-				this._ctx.fillStyle = that.colorSecondary;
+				this._garden.fillStyle = that.colorSecondary;
 
 				var radius = abs(that.x_0);
-				this._ctx.beginPath();
+				this._garden.beginPath();
 				var angleStep = TWO_PI/140;
 
-				this._ctx.moveTo(radius*cos(0.0), radius*sin(0.0));
+				this._garden.moveTo(radius*cos(0.0), radius*sin(0.0));
 				for(var angle = 0.0; angle < TWO_PI; angle += angleStep) {
 
 					var rad = 
 						radius + 
 						that.params[0] * sin(angle * that.params[1]);
 
-					this._ctx.lineTo(
+					this._garden.lineTo(
 						 rad * cos(angle), 
 						 rad * sin(angle));
 				};
 
-
-				this._ctx.lineTo(
+				this._garden.lineTo(
 					radius*cos(0.0), 
 					radius*sin(0.0));
 
-				
-				this._ctx.fill();
+				this._garden.fill();
 			}
 		};
 
-		function generateFlower() {
+		function generateFlower() 
+		{
 			var flower = [];
 
 			var previousRadius = 0.0;
@@ -112,23 +114,24 @@ ImportJS.pack('vine.flower', function(module, exports)
 			return flower;
 		}
 		
-		//this._ctx.updates(this, this.update);
-		this._ctx.draws(this, this.draw);
+		//this._garden.updates(this, this.update);
+		this._garden.draws(this, this.draw);
 	}
 
 	flower.prototype.draw = function() 
 	{
-			this._ctx.save();
+		if(this._garden.running === false) { this._garden.start(); };
+		this._garden.save();
 
-			this._ctx.translate( this._x, this._y);	
+		this._garden.translate( this._x, this._y);	
 
-			this._ctx.scale(5, 7);
+		this._garden.scale(5, 7);
 
-			for( var j = 0; j < this._flower.length; ++j ) {
-				this.types[this._flower[j].type].bind(this)(this._flower[j]);
-			}
+		for( var j = 0; j < this._flower.length; ++j ) {
+			this.types[this._flower[j].type].bind(this)(this._flower[j]);
+		}
 
-			this._ctx.restore();
+		this._garden.restore();
 	};
 
 	flower.prototype.update = function() 
