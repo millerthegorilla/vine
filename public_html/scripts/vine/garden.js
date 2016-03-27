@@ -33,7 +33,6 @@ ImportJS.pack('vine.garden', function(module)
 				col = flat.indexOf(this) / 2;
 				garden.draw_funcs.splice(col,1);
 			};
-			
 			return (this.flowerbed);
 		};
 		

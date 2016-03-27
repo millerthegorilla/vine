@@ -5,6 +5,8 @@ ImportJS.pack('vine.climberbase', function(module)
 	var circularQueue	= this.import('utils.circularQueue');
 	var garden	 		= this.import('vine.garden');
 	var flower			= this.import('vine.flower');
+		
+	var degreesPerTick, distancePerCurve, rotationPerCurve;
 	
 	function climberbase(params)
 	{
@@ -19,6 +21,9 @@ ImportJS.pack('vine.climberbase', function(module)
 		this._numCurvesPerSide = null;
 		this._curveDepth	= null;
 		this._toPoint = new point(0,0);
+		rotationPerCurve = 180;
+		degreesPerTick = rotationPerCurve / distancePerCurve;
+		
 		Math.degrees = function(rad)
 		{
 			return rad*(180/Math.PI);
@@ -86,40 +91,27 @@ ImportJS.pack('vine.climberbase', function(module)
 
 	climberbase.prototype._curveYFunc =  function() 
 	{
-		
 		var distancePerCurve = (this._distPerSide / this._numCurvesPerSide);
 		var rotationPerCurve = 180;
 		var tick = Math.floor(this._counter / distancePerCurve) * distancePerCurve + (this._counter % distancePerCurve);
-		var distanceAtCurveExtreme = distancePerCurve / 2;
 		var degreesPerTick = rotationPerCurve / distancePerCurve;
 		var distancePerTick = degreesPerTick * tick;
 		this._counter++;
-		//return tick * (this._distPerSide / this._tMax) + Math.sin(t * (this._numOfRots / this._tMax) * Math.PI) * this._d + this._xx;
-		//here = here * Math.PI / 180;
-		//console.log(here);
-		//here = Math.sin(here); 
+
 		return new point((this._corners[this._corners.index].x + (Math.sin(Math.radians(degreesPerTick * tick)) * this._curveDepth)),
 						this._corners[this._corners.index].y - tick);
-		//var d = this._corners[this._corners.nextIndex].y - this._corners[this._corners.index].y;
-		//console.log(d);
-		//this._counter++;
-		//return new point(this._corners[this._corners.index].x + this._rot(),
-			//			this._corners[this._corners.index].y - this._counter);
- 		//console.log(this._garden.dt);
-		//return new point(this._corners[this._corners.index].x + this._rot(), 
-			//			(this._counter / d) * d);
-							//this._currentPoint.y - 20);//Math.round((this._garden.millis / this._timePerSide) * this._distPerSide));								
-					/*((this._corners[this._corners.nextIndex].y -  
-								)) * 
-								(this._timePerSide / this._garden.millis % this._timePerSide)));*/
 	};
 	
 	climberbase.prototype._curveXFunc =  function() 
 	{
-		var d = this._corners[this._corners.nextIndex].x - this._corners[this._corners.index].x;
-		return new point(this._corners[this._corners.index].y + this._rot(), 
-						(this._garden.millis / d) * d);
-		//return new point(Math.round((this._corners[this._corners.nextIndex].y - this._corners[this._corners.index].y) * (this._timePerSide / this._garden.millis % this._timePerSide)), this._currentPoint.y + this._rot());
+		var distancePerCurve = (this._distPerSide / this._numCurvesPerSide);
+		var rotationPerCurve = 180;
+		var tick = Math.floor(this._counter / distancePerCurve) * distancePerCurve + (this._counter % distancePerCurve);
+
+		this._counter++;
+
+		return new point(this._corners[this._corners.index].x - tick,
+						(this._corners[this._corners.index].y + (Math.sin(Math.radians(degreesPerTick * tick)) * this._curveDepth)));
 	};
 	
 	climberbase.prototype._curveLeft =  function(t) 
@@ -139,7 +131,7 @@ ImportJS.pack('vine.climberbase', function(module)
 		{
 			this._seed.growBranch({currentPoint:this._currentPoint, girth:this._girth});	
 		}
-	
+		this._toPoint.val(this._corners.index <
 		if (this._toPoint.y >= this._distPerSide + this._corners[this._corners.index].y) 
 		{
 			this._done();

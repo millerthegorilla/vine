@@ -55,7 +55,7 @@ ImportJS.pack('vine.climber', function(module)
 		}
 		this._startTime = this._garden.millis;
 		this._drawFunction = this._corners.current.func;
-		console.log (" hi " + this._corners.nextInde);
+
 		this._distPerSide = this._corners[this._corners.nextIndex].distanceFrom(this._corners[this._corners.index]);
 		return(params.autoStart && this._garden.start(), this);
 	}
