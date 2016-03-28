@@ -36,6 +36,7 @@ ImportJS.pack('vine.climber', function(module)
 		this._corners.reverse = (this._direction === 'CW') ? false : true;
 		this._currentPoint = this._corners[this._corners.index].clone(); 
 		this._timePerSide = Math.floor(this._time / this._numOfSides);
+		this._bounds = Matter.Bounds.create(this._left, this._top, this._width, this._height);
 		this._garden.updates(this, this._grow);
 		this._garden.draws(this, this._draw);
 		this._done = this.finish;
@@ -53,11 +54,11 @@ ImportJS.pack('vine.climber', function(module)
 			this._corners[1].func = this._curveXFunc;
 			this._corners[3].func = this._curveXFunc;
 		}
-		this._startTime = this._garden.millis;
+		//this._startTime = this._garden.millis;
 		this._drawFunction = this._corners.current.func;
 
 		this._distPerSide = this._corners[this._corners.nextIndex].distanceFrom(this._corners[this._corners.index]);
-		return(params.autoStart && this._garden.start(), this);
+		//return(params.autoStart && this._garden.start(), this);
 	}
 	
 	climber.prototype.finish = function()

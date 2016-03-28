@@ -126,13 +126,12 @@ ImportJS.pack('vine.climberbase', function(module)
 	
 	climberbase.prototype._grow = function() 
 	{	
-		if(!this._garden.running) { this._garden.start(); };
-		if (this._garden.millis > this._stemLength && this._branchChance && utils.randomi(0,100) < this._branchChance)
+		if (this._stemLength && this._branchChance && utils.randomi(0,100) < this._branchChance)
 		{
 			this._seed.growBranch({currentPoint:this._currentPoint, girth:this._girth});	
 		}
-		this._toPoint.val(this._corners.index <
-		if (this._toPoint.y >= this._distPerSide + this._corners[this._corners.index].y) 
+
+		if (Matter.Query.point() 
 		{
 			this._done();
 		}

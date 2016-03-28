@@ -9,18 +9,8 @@ ImportJS.pack('vine.seed', function(module)
 	var flowers = [];
 	var seed = function(params)
 	{
-		this._garden		= new garden({autostart:params.autostart,autoclear:false,autopause:params.autopause});
-		params.garden		= this._garden;
 		params.seed 		= this;
-		var vine 			= new climber(params);	
-		this._garden.globalCompositeOperation = 'difference || hard-light';
-		
-		Object.defineProperty(this, 
-							  "running", 
-							  {
-								get: function() { return garden.running; },
-								set: function(val) { (val === true) ? garden.start() : garden.stop(); }
-							  });
+		var vine 			= new climber(params);		
 	};
 	
 	seed.prototype.growBranch = function(params)

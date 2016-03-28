@@ -13,6 +13,7 @@ ImportJS.preload({
 		PointerEventsPolyfill.initialize({});
         console.log("done, loaded files: ", filesArr);
         ImportJS.compile();
+        
         var vine = ImportJS.unpack('vine.seed');
         new vine({branchChance:60, //percentage chance of branches being drawn
 				  stemLength:50, //milliseconds before branches maybe drawn
